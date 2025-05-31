@@ -1,23 +1,15 @@
-rockspec_format = '3.0'
--- TODO: Rename this file and set the package
-package = "nvim-lua-plugin"
+rockspec_format = "3.0"
+package = "hush.nvim"
 version = "scm-1"
 source = {
-  -- TODO: Update this URL
-  url = "git+https://github.com/nvim-lua/nvim-lua-plugin-template"
+	-- TODO: Update this URL
+	url = "https://github.com/mbienkowsk/hush.nvim",
 }
-dependencies = {
-  -- Add runtime dependencies here
-  -- e.g. "plenary.nvim",
-}
+dependencies = {}
 test_dependencies = {
-  "nlua"
+	"nlua",
 }
 build = {
-  type = "builtin",
-  copy_directories = {
-    -- Add runtimepath directories, like
-    -- 'plugin', 'ftplugin', 'doc'
-    -- here. DO NOT add 'lua' or 'lib'.
-  },
+	type = "builtin",
+	copy_directories = {},
 }
