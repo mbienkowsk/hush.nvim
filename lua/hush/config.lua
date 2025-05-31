@@ -1,0 +1,1 @@
+---@class hush.Config

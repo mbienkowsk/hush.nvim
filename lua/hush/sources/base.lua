@@ -1,0 +1,6 @@
+---@class DiagnosticSource
+---@field name string
+---
+---@field build_suppress_all_diagnostics fun(): string
+---@field build_suppress_line_diagnostics fun(): string
+---@field build_suppress_diagnostics_of_type fun(diagnostic_type: string): string
