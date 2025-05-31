@@ -42,7 +42,11 @@ EOF
 
 ## Usage
 
-The plugin exposes two commands - `:Hush` and `:HushAll`. `Hush` tries to silence the specific warnings emitted by the line using their error codes. `HushAll` disables the offended source for the line.
+Currently, the plugin supports the following diagnostic sources:
+
+* basedpyright
+
+Hush exposes two commands - `:Hush` and `:HushAll`. `Hush` tries to silence the specific warnings emitted by the line using their error codes. `HushAll` disables the offended source for the line.
 
 
 ## Development
