@@ -1,49 +1,52 @@
-# nvim-lua-plugin-template
+# 🤫 hush
 
-This repository is a template for Neovim plugins written in Lua.
+Silence LSP diagnostics with a single click
 
-The intention is that you use this template to create a new repository where you then adapt this readme and add your plugin code.
-The template includes the following:
+## Installation
 
-- GitHub workflows and configurations to run linters and tests
-- Packaging of tagged releases and upload to [LuaRocks][luarocks]
-  if a [`LUAROCKS_API_KEY`][luarocks-api-key] is added
-  to the [GitHub Actions secrets][gh-actions-secrets]
-- Minimal test setup:
-  - A `scm` [rockspec][rockspec-format], `nvim-lua-plugin-scm-1.rockspec`
-  - A `.busted` file
-- EditorConfig
-- A .luacheckrc
+#### lazy.nvim
 
+```lua
+return {
+  "mbienkowsk/hush.nvim",
+  config = {},
+  keys = {
+      { "<leader>h", "<Cmd>Hush<CR>", desc = "Hush" }, -- customize
+  },
+}
+```
 
-To get started writing a Lua plugin, I recommend reading `:help lua-guide` and
-`:help write-plugin`.
+#### packer.nvim
+```lua
+use({
+  "mbienkowsk/hush.nvim",
+  config = function()
+    require("hush").setup({})
+  end,
+})
 
-## Scope
+vim.keymap.set("n", "<leader>h", "<Cmd>Hush<CR>", { desc = "Hush" }) -- customize
+```
 
-Anything that the majority of plugin authors will want to have is in scope of
-this starter template. Anything that is controversial is out-of-scope.
-
-## Usage
-
-- Click [Use this template][use-this-template]. Do not fork.
-- Rename `nvim-lua-plugin-scm-1.rockspec` and change the `package` name
-  to the name of your plugin.
-
-## Template License
-
-The template itself is licensed under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
-The template doesn't include a LICENSE file. You should add one after creating your repository.
-
----
-
-
-The remainder of the README is text that can be preserved in your plugin:
-
----
+#### vim-plug
+```vim
+Plug 'mbienkowsk/hush.nvim'
+lua << EOF
+require("hush").setup({})
+vim.keymap.set("n", "<leader>h", "<Cmd>Hush<CR>", { desc = "Hush" }) " customize
+EOF
+```
 
 
 ## Development
+
+### Adding support for new diagnostic sources
+
+In order to add support for hushing a source, a subclass of `DiagnosticSource` has to be added in `sources/`. Each diagnostic source has to implement 3 things:
+* `comment_position` field - whether the comments should be placed on or above the offending line
+* `build_suppress_all_diagnostics` - function returning a string which disables the source for a given line, for example `type: ignore` for pyright or `@ts-ignore` for the tslanguageserver
+* `build_suppress_diagnostics_of_codes` - function returning a string which disables the source for a given line, for example `pyright: ignore[reportUndefinedVariable]` for basedpyright or `noqa: E501` for flake8. If this is not supported (like in pyright), it should be a call to `build_suppress_all_diagnostics`
+
 
 ### Run tests
 
