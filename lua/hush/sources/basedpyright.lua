@@ -3,17 +3,14 @@
 ---@class BasedPyrightSource
 local BP = {}
 
-BP.comment_start = "#"
-BP.name = "#"
+BP.comment_position = "current"
 
 BP.build_suppress_all_diagnostics = function()
   return "pyright: ignore"
 end
 
-BP.build_suppress_diagnostics_of_type = function(diagnostic_type)
-  return "pyright: ignore[" .. diagnostic_type .. "]"
+BP.build_suppress_diagnostics_of_codes = function(diagnostic_codes)
+  return "pyright: ignore[" .. table.concat(diagnostic_codes, ", ") .. "]"
 end
-
-BP.get_type_from_diagnostic = function() end
 
 return BP
