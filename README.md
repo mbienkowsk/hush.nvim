@@ -2,6 +2,9 @@
 
 Silence LSP diagnostics with a single click
 
+## Demo
+<https://github.com/user-attachments/assets/98df20f8-45c1-4587-8403-b78accd837a3>
+
 ## Installation
 
 #### lazy.nvim
