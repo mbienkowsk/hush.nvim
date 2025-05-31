@@ -13,6 +13,9 @@ return {
   keys = {
       { "<leader>h", "<Cmd>Hush<CR>", desc = "Hush" }, -- customize
   },
+  cmd = {
+      "Hush", "HushAll"
+  },
 }
 ```
 
@@ -36,6 +39,10 @@ require("hush").setup({})
 vim.keymap.set("n", "<leader>h", "<Cmd>Hush<CR>", { desc = "Hush" }) " customize
 EOF
 ```
+
+## Usage
+
+The plugin exposes two commands - `:Hush` and `:HushAll`. `Hush` tries to silence the specific warnings emitted by the line using their error codes. `HushAll` disables the offended source for the line.
 
 
 ## Development
