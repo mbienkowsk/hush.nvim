@@ -11,7 +11,7 @@ Silence LSP diagnostics with a single click
 ```lua
 return {
   "mbienkowsk/hush.nvim",
-  config = {},
+  opts = {},
   keys = {
       { "<leader>h", "<Cmd>Hush<CR>", desc = "Hush" }, -- customize
   },
@@ -47,7 +47,8 @@ EOF
 Currently, the plugin supports the following diagnostic sources:
 
 * basedpyright
-* LuaLS
+* lua_ls
+* typescript-language-server
 
 Hush exposes two commands - `:Hush` and `:HushAll`. `Hush` tries to silence the specific warnings emitted by the line using their error codes. `HushAll` disables the offended source for the line.
 
