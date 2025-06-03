@@ -56,11 +56,11 @@ Hush exposes two commands - `:Hush` and `:HushAll`. `Hush` tries to silence the 
 
 ### Adding support for new diagnostic sources
 
-In order to add support for hushing a source, a subclass of `DiagnosticSource` has to be added in `sources/`. Each diagnostic source has to implement 3 things:
-* `comment_position` field - whether the comments should be placed on or above the offending line
-* `build_suppress_all_diagnostics` - function returning a string which disables the source for a given line, for example `type: ignore` for pyright or `@ts-ignore` for the tslanguageserver
-* `build_suppress_diagnostics_of_codes` - function returning a string which disables the source for a given line, for example `pyright: ignore[reportUndefinedVariable]` for basedpyright or `noqa: E501` for flake8. If this is not supported (like in pyright), it should be a call to `build_suppress_all_diagnostics`
-
+In order to add support for hushing a source, a subclass of `DiagnosticSource` has to be added in `sources/`. Each diagnostic source has to implement 4 things:
+* `comment_position` field - whether the diagnostic ignore comment is supposed to be above or on the offending line
+* `build_suppress_all_diagnostics` - function returning a string which disables all diagnostics from this source for a given line
+* `build_suppress_diagnostics` - function returning a string which disables the given diagnostics for a given line
+* `matches_diagnostic` - function that checks if the diagnostic source matches the given diagnostic (some diagnostic sources provide several "source" arguments in the diagnostic based on the context - e.g. lua_ls)
 
 ### Run tests
 
