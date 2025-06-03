@@ -6,8 +6,9 @@ local LLS = {}
 
 LLS.comment_position = "above"
 
-LLS.build_suppress_all_diagnostics = function()
-  return "---@diagnostic disable-next-line"
+--- LuaLS does not allow suppressing all diagnostics at once: https://luals.github.io/wiki/annotations/#diagnostic
+LLS.build_suppress_all_diagnostics = function(diagnostics)
+  return LLS.build_suppress_diagnostics(diagnostics)
 end
 
 LLS.build_suppress_diagnostics = function(diagnostics)

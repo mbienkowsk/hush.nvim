@@ -1,4 +1,3 @@
-local sources = require("hush.sources")
 local utils = require("hush.sources.utils")
 local fileops = require("hush.fileops")
 
@@ -13,7 +12,7 @@ local _hush = function(mute)
   for source, diagnostic_list in pairs(diagnostics_map) do
     local line
     if mute then
-      line = source.build_suppress_all_diagnostics()
+      line = source.build_suppress_all_diagnostics(diagnostic_list)
     else
       line = source.build_suppress_diagnostics(diagnostic_list)
     end
