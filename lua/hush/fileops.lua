@@ -5,23 +5,20 @@ local M = {}
 ---@param position CommentPosition
 M.add_comment = function(contents, gap_width, position)
   local line = vim.api.nvim_get_current_line()
-  local template = vim.bo.commentstring
 
   local gap = string.rep(" ", gap_width)
   local new_line
 
-  local comment = string.format(template, contents)
-
   if position == "above" then
     local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
-    vim.api.nvim_buf_set_lines(0, current_line_nr - 1, current_line_nr - 1, false, { comment })
+    vim.api.nvim_buf_set_lines(0, current_line_nr - 1, current_line_nr - 1, false, { contents })
     return
   end
 
   if line ~= "" then
-    new_line = line .. gap .. comment
+    new_line = line .. gap .. contents
   else
-    new_line = comment
+    new_line = contents
   end
 
   vim.api.nvim_set_current_line(new_line)
