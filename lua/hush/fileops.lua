@@ -11,6 +11,8 @@ M.add_comment = function(contents, gap_width, position)
 
   if position == "above" then
     local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
+    local current_line_indent = line:match("^(%s*)") or ""
+    contents = current_line_indent .. contents
     vim.api.nvim_buf_set_lines(0, current_line_nr - 1, current_line_nr - 1, false, { contents })
     return
   end
