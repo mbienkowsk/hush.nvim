@@ -1,43 +1,34 @@
-local sources = require("hush.sources")
 local utils = require("hush.sources.utils")
 local fileops = require("hush.fileops")
 
 local M = {}
 
-M.hush = function()
-  local diagnostics = utils.get_diagnostic_map_for_current_line()
+--- For the current line, collect diagnostics and insert a comment to suppress them.
+--- If 'mute' is true, suppress all diagnostics from the offending source; otherwise, suppress only the specific diagnostic codes present.
+---@param mute boolean Suppress all diagnostics from the source (true) or only specific codes (false)
+local _hush = function(mute)
+  local diagnostics_map = utils.get_diagnostic_map_for_current_line()
 
-  for source, codes in pairs(diagnostics) do
-    if sources[source] == nil then
-      vim.notify("Diagnostic source '" .. source .. "' is not supported", vim.log.levels.WARN, { title = "hush" })
-      goto continue
+  for source, diagnostic_list in pairs(diagnostics_map) do
+    local line
+    if mute then
+      line = source.build_suppress_all_diagnostics(diagnostic_list)
+    else
+      line = source.build_suppress_diagnostics(diagnostic_list)
     end
 
-    local comment = sources[source].build_suppress_diagnostics_of_codes(codes)
-    local position = sources[source].comment_position
+    local position = source.comment_position
     local gap_width = 2 -- TODO: parametrize
-    fileops.add_comment(comment, gap_width, position)
-
-    ::continue::
+    fileops.add_comment(line, gap_width, position)
   end
 end
 
+M.hush = function()
+  _hush(false)
+end
+
 M.hush_all = function()
-  local diagnostics = utils.get_diagnostic_map_for_current_line()
-
-  for source, codes in pairs(diagnostics) do
-    if sources[source] == nil then
-      vim.notify("Diagnostic source '" .. source .. "' is not supported", vim.log.levels.WARN, { title = "hush" })
-      goto continue
-    end
-
-    local comment = sources[source].build_suppress_all_diagnostics(codes)
-    local position = sources[source].comment_position
-    local gap_width = 2 -- TODO: parametrize
-    fileops.add_comment(comment, gap_width, position)
-
-    ::continue::
-  end
+  _hush(true)
 end
 
 return M

@@ -7,8 +7,7 @@ Silence LSP diagnostics with a single click
 
 ## Installation
 
-#### lazy.nvim
-
+**lazy.nvim**
 ```lua
 return {
   "mbienkowsk/hush.nvim",
@@ -22,7 +21,7 @@ return {
 }
 ```
 
-#### packer.nvim
+**packer.nvim**
 ```lua
 use({
   "mbienkowsk/hush.nvim",
@@ -34,7 +33,7 @@ use({
 vim.keymap.set("n", "<leader>h", "<Cmd>Hush<CR>", { desc = "Hush" }) -- customize
 ```
 
-#### vim-plug
+**vim-plug**
 ```vim
 Plug 'mbienkowsk/hush.nvim'
 lua << EOF
@@ -48,6 +47,7 @@ EOF
 Currently, the plugin supports the following diagnostic sources:
 
 * basedpyright
+* LuaLS
 
 Hush exposes two commands - `:Hush` and `:HushAll`. `Hush` tries to silence the specific warnings emitted by the line using their error codes. `HushAll` disables the offended source for the line.
 
@@ -56,11 +56,11 @@ Hush exposes two commands - `:Hush` and `:HushAll`. `Hush` tries to silence the 
 
 ### Adding support for new diagnostic sources
 
-In order to add support for hushing a source, a subclass of `DiagnosticSource` has to be added in `sources/`. Each diagnostic source has to implement 3 things:
-* `comment_position` field - whether the comments should be placed on or above the offending line
-* `build_suppress_all_diagnostics` - function returning a string which disables the source for a given line, for example `type: ignore` for pyright or `@ts-ignore` for the tslanguageserver
-* `build_suppress_diagnostics_of_codes` - function returning a string which disables the source for a given line, for example `pyright: ignore[reportUndefinedVariable]` for basedpyright or `noqa: E501` for flake8. If this is not supported (like in pyright), it should be a call to `build_suppress_all_diagnostics`
-
+In order to add support for hushing a source, a subclass of `DiagnosticSource` has to be added in `sources/`. Each diagnostic source has to implement 4 things:
+* `comment_position` field - whether the diagnostic ignore comment is supposed to be above or on the offending line
+* `build_suppress_all_diagnostics` - function returning a string which disables all diagnostics from this source for a given line
+* `build_suppress_diagnostics` - function returning a string which disables the given diagnostics for a given line
+* `matches_diagnostic` - function that checks if the diagnostic source matches the given diagnostic (some diagnostic sources provide several "source" arguments in the diagnostic based on the context - e.g. lua_ls)
 
 ### Run tests
 
@@ -101,10 +101,6 @@ For this to work you need to have Lua 5.1 set as your default version for
 luarocks. If that's not the case you can pass `--lua-version 5.1` to all the
 luarocks commands above.
 
-[rockspec-format]: https://github.com/luarocks/luarocks/wiki/Rockspec-format
 [luarocks]: https://luarocks.org
-[luarocks-api-key]: https://luarocks.org/settings/api-keys
-[gh-actions-secrets]: https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository
 [busted]: https://lunarmodules.github.io/busted/
 [nlua]: https://github.com/mfussenegger/nlua
-[use-this-template]: https://github.com/new?template_name=nvim-lua-plugin-template&template_owner=nvim-lua
