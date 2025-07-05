@@ -48,8 +48,9 @@ Currently, the plugin supports the following diagnostic sources:
 
 * basedpyright
 * LuaLS
+* clang-tidy
 
-Hush exposes two commands - `:Hush` and `:HushAll`. `Hush` tries to silence the specific warnings emitted by the line using their error codes. `HushAll` disables the offended source for the line.
+Hush exposes two commands - `:Hush` and `:HushAll`. `Hush` tries to silence the specific warnings emitted by the line using their error codes (if it's not supported in the source, it falls back to `HushAll`. `HushAll` disables the offended source for the line (if it's not supported in the source, falls back to `Hush`.
 
 
 ## Development
