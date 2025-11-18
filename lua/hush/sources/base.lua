@@ -6,6 +6,6 @@
 
 ---@enum CommentPosition
 local _ = {
-  ABOVE = "above",
-  CURRENT = "current",
+    ABOVE = "above",
+    CURRENT = "current",
 }
